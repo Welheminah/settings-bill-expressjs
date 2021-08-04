@@ -5,7 +5,93 @@ module.exports = function BillWithSettings() {
     let criticalLevel = 0;
     let total = 0;
 
+    var callCostTotal = 0;
+    var smsCostTotal = 0;
+
     let actionList = [];
+
+    function setCallCost(callCosting) {
+        callCost = callCosting;
+    }
+
+    function getCallCost() {
+        return callCost;
+    }
+
+    function setSmsCost(smsCosting) {
+        smsCost = smsCosting;
+    }
+
+    function getSmsCost() {
+        return smsCost;
+    }
+
+    function setWarningLevel(warningLeveling) {
+        warningLevel = warningLeveling;
+    }
+
+    function getWarningLevel() {
+        return warningLevel;
+    }
+
+    function setCriticalLevel(criticalLeveling) {
+        criticalLevel = criticalLeveling;
+    }
+
+    function getCriticalLevel() {
+        return criticalLevel;
+    }
+
+    function makeCall() {
+        if (!hasReachedCriticalLevel()) {
+            callCostTotal += callCost;
+        }
+
+    }
+
+
+    function getTotalCost() {
+        return callCostTotal + smsCostTotal;
+    }
+
+    function getTotalCallCost() {
+        return callCostTotal;
+    }
+
+    function getTotalSmsCost() {
+        return smsCostTotal;
+    }
+
+    function sendSms() {
+        if (!hasReachedCriticalLevel()) {
+            smsCostTotal += smsCost
+        }
+
+    }
+
+
+    function hasReachedCriticalLevel() {
+        return getTotalCost() >= getCriticalLevel();
+    }
+
+    function totalClassName() {
+        if (hasReachedCriticalLevel()) {
+            return "danger";
+        }
+
+        if (getTotalCost() >= getWarningLevel()) {
+            return "warning";
+        }
+    }
+
+    function radioType(bill) {
+        if (bill === 'call') {
+            makeCall();
+        } else if (bill === 'sms') {
+            sendSms();
+        }
+    }
+
 
     function setSettings(settings) {
         smsCost = Number(settings.smsCost);
@@ -94,44 +180,34 @@ module.exports = function BillWithSettings() {
         }
     }
 
-    function hasReachedWarningLevel() {
-        const total = grandTotal();
-        const reachedWarningLevel = total >= warningLevel
-            && total < criticalLevel;
-
-        return reachedWarningLevel;
-    }
-
-    function hasReachedCriticalLevel() {
-        //const total = grandTotal();
-        return total >= criticalLevel;
-    }
-    function colorSwitch() {
-        if(criticalLevel !==0){
-        if (totals().grandTotal >= criticalLevel) {
-            return "danger";
-        } else if (totals().grandTotal >= warningLevel && totals().grandTotal <= criticalLevel) {
-            return "warning";
-        } else {
-            return "";
-        }
-    }
-    }
-
-    function stopageColor() {
-        return grandTotal() >= criticalLevel;
-    }
 
     return {
+        getCallCost,
+        setCallCost,
+
+        getSmsCost,
+        setSmsCost,
+
+        getWarningLevel,
+        setWarningLevel,
+
+        getCriticalLevel,
+        setCriticalLevel,
+
+        makeCall,
+
+        getTotalCost,
+        getTotalCallCost,
+        getTotalSmsCost,
+
+        sendSms,
+        totalClassName,
+        radioType,
         setSettings,
         getSettings,
         recordAction,
         actions,
         actionsFor,
         totals,
-        hasReachedWarningLevel,
-        hasReachedCriticalLevel,
-        colorSwitch,
-        stopageColor
     }
 }

@@ -29,6 +29,7 @@ app.get('/', function(req, res){
     res.render('index', {
         settings:settingBill.getSettings(),
         totals: settingBill.totals(),
+        color: settingBill.colorSwitch()
     });
 });
 

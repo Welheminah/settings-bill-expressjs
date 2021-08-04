@@ -2,10 +2,9 @@ let assert = require("assert");
 let BillWithSettings = require("../settings-bill");
 
 describe('The bill with settings factory function', function(){
-
+    let settingsBill = BillWithSettings();
     it('should be able to set call cost', function(){
-        let settingsBill = BillWithSettings();
-
+       
         settingsBill.setCallCost(1.85);
         assert.equal(1.85, settingsBill.getCallCost());
 
@@ -84,7 +83,6 @@ describe('The bill with settings factory function', function(){
     describe("use values", function() {
         it("should be able to use the call cost set", function() {
            
-            
                 let settingsBill = BillWithSettings();
         
                 settingsBill.setCriticalLevel(10)
