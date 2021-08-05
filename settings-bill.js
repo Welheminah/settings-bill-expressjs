@@ -9,6 +9,7 @@ module.exports = function BillWithSettings() {
     var smsCostTotal = 0;
 
     let actionList = [];
+    
 
     function setCallCost(callCosting) {
         callCost = callCosting;
@@ -31,6 +32,10 @@ module.exports = function BillWithSettings() {
     }
 
     function getWarningLevel() {
+        return warningLevel;
+    }
+
+    function getWarningLevel1() {
         return warningLevel;
     }
 
@@ -74,6 +79,11 @@ module.exports = function BillWithSettings() {
         return getTotalCost() >= getCriticalLevel();
     }
 
+    function hasReachedCriticalLevel1() {
+        return grandTotal() >= getCriticalLevel();
+    }
+    
+
     function totalClassName() {
         if (hasReachedCriticalLevel()) {
             return "danger";
@@ -83,6 +93,18 @@ module.exports = function BillWithSettings() {
             return "warning";
         }
     }
+
+    function totalClassName1() {
+        if (hasReachedCriticalLevel1()) {
+            return "danger";
+        }
+
+        if (grandTotal() >= getWarningLevel1()) {
+            return "warning";
+        }
+    }
+
+    
 
     function radioType(bill) {
         if (bill === 'call') {
@@ -111,6 +133,7 @@ module.exports = function BillWithSettings() {
     }
 
     function recordAction(action) {
+        var moment = require('moment');
         if (!stopageColor()) {
             var cost = 0;
             if (action === 'sms') {
@@ -125,7 +148,7 @@ module.exports = function BillWithSettings() {
             actionList.push({
                 type: action,
                 cost,
-                timestamp: new Date()
+                timestamp: moment().startOf("minute").fromNow()
             });
         }
         }
@@ -180,6 +203,11 @@ module.exports = function BillWithSettings() {
         }
     }
 
+    function stopageColor() {
+
+        return grandTotal() >= criticalLevel;
+    }
+
 
     return {
         getCallCost,
@@ -209,5 +237,9 @@ module.exports = function BillWithSettings() {
         actions,
         actionsFor,
         totals,
+        stopageColor,
+        getWarningLevel1,
+        totalClassName1,
+        hasReachedCriticalLevel1
     }
 }

@@ -2,6 +2,7 @@ const express = require('express');
 const exphbs  = require('express-handlebars');
 const bodyParser = require('body-parser');
 const settingsBill = require('./settings-bill');
+var moment = require('moment-timezone');
 
 
 const app = express();
@@ -10,7 +11,10 @@ const settingBill = settingsBill();
 const handlebarSetup = exphbs({
     partialsDir: "./views/partials",
     viewPath:  './views',
-    layoutsDir : './views/layouts'
+    layoutsDir : './views/layouts',
+    // helpers : {
+    //     moment : function(){}
+    // }
 });
 
 app.engine('handlebars', handlebarSetup);
@@ -25,12 +29,14 @@ app.use(bodyParser.json())
 app.use(express.static('public'));
 
 app.get('/', function(req, res){
+    console.log(settingBill.totalClassName())
     
     res.render('index', {
         settings:settingBill.getSettings(),
         totals: settingBill.totals(),
-        color: settingBill.colorSwitch()
+        color: settingBill.totalClassName1()
     });
+    
 });
 
 app.post('/settings', function(req, res){
@@ -62,9 +68,10 @@ app.get('/actions', function(req, res){
 });
 
 app.get('/actions/:actionType', function(req, res){
+    
     let actionType = req.params.actionType;
-    var time = settingBill.actionsFor(actionType)
-    res.render('actions', { actions: time });
+    var history = settingBill.actionsFor(actionType)
+    res.render('actions', { actions: history });
 });
 
 const PORT = process.env.PORT || 3011;

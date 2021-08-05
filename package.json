@@ -5,14 +5,16 @@
   "main": "settings-bill-test.js",
   "scripts": {
     "test": "mocha"
-   },
+  },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "dependencies": {
     "body-parser": "^1.19.0",
     "express": "^4.17.1",
-    "express-handlebars": "^5.3.2"
+    "express-handlebars": "^5.3.2",
+    "moment": "^2.29.1",
+    "moment-timezone": "^0.5.33"
   },
   "devDependencies": {
     "mocha": "^9.0.3"
