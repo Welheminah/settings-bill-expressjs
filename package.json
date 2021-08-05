@@ -3,8 +3,10 @@
   "version": "1.0.0",
   "description": "",
   "main": "settings-bill-test.js",
+
   "scripts": {
-    "test": "mocha"
+    "test": "mocha",
+    "start": "node index.js"
   },
   "keywords": [],
   "author": "",

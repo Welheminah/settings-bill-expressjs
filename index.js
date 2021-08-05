@@ -29,7 +29,7 @@ app.use(bodyParser.json())
 app.use(express.static('public'));
 
 app.get('/', function(req, res){
-    console.log(settingBill.totalClassName())
+   
     
     res.render('index', {
         settings:settingBill.getSettings(),
@@ -49,7 +49,7 @@ app.post('/settings', function(req, res){
         criticalLevel: req.body.criticalLevel
     });
 
-    console.log(settingBill.getSettings());
+    
 
     res.redirect('/')
 });
@@ -57,7 +57,7 @@ app.post('/settings', function(req, res){
 app.post('/action', function(req, res){
     settingBill.recordAction(req.body.actionType)
     
-    console.log(req.body.actionType);
+   
 
     res.redirect('/')
 });
