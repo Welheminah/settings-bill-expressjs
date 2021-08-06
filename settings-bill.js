@@ -1,15 +1,14 @@
 module.exports = function BillWithSettings() {
     let smsCost = 0;
     let callCost = 0;
-    let warningLevel = 0;
-    let criticalLevel = 0;
+    let warningLevel ;
+    let criticalLevel;
     let total = 0;
 
     var callCostTotal = 0;
     var smsCostTotal = 0;
 
     let actionList = [];
-    let moment = require('moment');
     
 
     function setCallCost(callCosting) {
@@ -149,11 +148,14 @@ module.exports = function BillWithSettings() {
             actionList.push({
                 type: action,
                 cost,
-                timestamp: moment().startOf("minute").fromNow()
+                timestamp: new Date()
             });
         }
         }
     }
+
+
+    
     function actions() {
         return actionList;
     }
