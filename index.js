@@ -2,7 +2,8 @@ const express = require('express');
 const exphbs  = require('express-handlebars');
 const bodyParser = require('body-parser');
 const settingsBill = require('./settings-bill');
-var moment = require('moment-timezone');
+const moment = require('moment');
+
 
 
 const app = express();
@@ -70,8 +71,11 @@ app.get('/actions', function(req, res){
 app.get('/actions/:actionType', function(req, res){
     
     let actionType = req.params.actionType;
-    var history = settingBill.actionsFor(actionType)
-    res.render('actions', { actions: history });
+    
+    for (const iterator of settingBill.actionsFor(actionType)) {
+        iterator.ago = moment(iterator.timestamp)
+    }
+    res.render('actions', { actions: settingBill.actionsFor(actionType) });
 });
 
 const PORT = process.env.PORT || 3011;

@@ -9,6 +9,7 @@ module.exports = function BillWithSettings() {
     var smsCostTotal = 0;
 
     let actionList = [];
+    let moment = require('moment');
     
 
     function setCallCost(callCosting) {
@@ -133,7 +134,7 @@ module.exports = function BillWithSettings() {
     }
 
     function recordAction(action) {
-        var moment = require('moment');
+        
         if (!stopageColor()) {
             var cost = 0;
             if (action === 'sms') {
@@ -197,9 +198,9 @@ module.exports = function BillWithSettings() {
         let callTotal = getTotal('call')
 
         return {
-            smsTotal: smsTotal,
-            callTotal: callTotal,
-            grandTotal: grandTotal()
+            smsTotal: smsTotal.toFixed(2),
+            callTotal: callTotal.toFixed(2),
+            grandTotal: grandTotal().toFixed(2)
         }
     }
 
